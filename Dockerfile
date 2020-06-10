@@ -1,21 +1,7 @@
-# 1: Start from whatever image you are using - this is a ruby app example:
 FROM ruby:2.5.0
 
-# 2: Install the packages required for wkhtmltopdf to work:
-RUN apk add --no-cache \
- libstdc++ \
- libx11 \
- libxrender \
- libxext \
- libssl1.0 \
- ca-certificates \
- fontconfig \
- freetype \
- ttf-dejavu \
- ttf-droid \
- ttf-freefont \
- ttf-liberation \
- ttf-ubuntu-font-family
+RUN apt-get update
+RUN apt-get -y install xfonts-75dpi xfonts-base
 
-# 3: Copy the wkhtmltopdf executable binary directly from our image:
-COPY --from icalialabs/wkhtmltopdf:alpine /bin/wkhtmltopdf /bin/wkhtmltopdf
+RUN wget -q -O /tmp/wkhtmltopdf.deb https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb
+RUN dpkg -i /tmp/wkhtmltopdf.deb
